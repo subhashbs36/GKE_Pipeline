@@ -29,8 +29,11 @@ steps:
 
 substitutions:
   _PROJECT_ID: "nice-theater-386506"
-  _VERSION: "v1.0"
+  _VERSION: "v2.0"
   _LOCATION: "asia-south2-docker.pkg.dev"
   _REPO_NAME: "gke-pipeline"
   _GKE_CLUSTER_LOCATION: "us-central1"
   _GKE_CLUSTER_NAME: "microservice1"
+
+options:
+  logging: NONE
