@@ -4,35 +4,28 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/gke_sample:$VERSION'
+      - 'gcr.io/nice-theater-386506/gke_sample:v1.0'
       - '.'
 
   # Tag the Docker image for Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'tag'
-      - 'gcr.io/$PROJECT_ID/gke_sample:$VERSION'
-      - 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPO_NAME/gke_sample:$VERSION'
+      - 'gcr.io/nice-theater-386506/gke_sample:v1.0'
+      - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0'
 
   # Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPO_NAME/gke_sample:$VERSION'
+      - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0'
 
   # Deploy to GKE
   - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
       - 'run'
       - '--filename=deployment.yaml'
-      - '--location=_GKE_CLUSTER_LOCATION'
-      - '--cluster=_GKE_CLUSTER_NAME'
+      - '--location=us-central1'
+      - '--cluster=microservice1'
       - '--namespace=default'
-
-substitutions:
-  _PROJECT_ID: "nice-theater-386506"
-  _VERSION: "v1.0"
-  _LOCATION: "asia-south2-docker.pkg.dev"
-  _REPO_NAME: "gke-pipeline"
-  _GKE_CLUSTER_LOCATION: "us-central1"
-  _GKE_CLUSTER_NAME: "microservice1"
+      - '--image=asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0'
