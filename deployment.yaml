@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gke-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gke-pipeline
+  template:
+    metadata:
+      labels:
+        app: gke-pipeline
+    spec:
+      containers:
+      - name: gke-container
+        image: asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0
+
