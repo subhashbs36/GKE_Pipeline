@@ -18,7 +18,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPO_NAME/gke_sample:${_VERSION}'
+      - 'LOCATION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/gke_sample:${_VERSION}'
 
   # Deploy to GKE
   - name: 'gcr.io/cloud-builders/kubectl'
