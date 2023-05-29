@@ -4,21 +4,21 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/gke_sample:$VERSION'
+      - 'gcr.io/$PROJECT_ID/gke_sample:${_VERSION}'
       - '.'
 
   # Tag the Docker image for Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'tag'
-      - 'gcr.io/$PROJECT_ID/gke_sample:$VERSION'
-      - 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPO_NAME/gke_sample:$VERSION'
+      - 'gcr.io/$PROJECT_ID/gke_sample:${_VERSION}'
+      - 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPO_NAME/gke_sample:${_VERSION}'
 
   # Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPO_NAME/gke_sample:$VERSION'
+      - 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPO_NAME/gke_sample:${_VERSION}'
 
   # Deploy to GKE
   - name: 'gcr.io/cloud-builders/kubectl'
@@ -29,7 +29,7 @@ steps:
 
 substitutions:
   _PROJECT_ID: "nice-theater-386506"
-  _VERSION: "v2.0"
+  _VERSION: "v1.0"
   _LOCATION: "asia-south2-docker.pkg.dev"
   _REPO_NAME: "gke-pipeline"
   _GKE_CLUSTER_LOCATION: "us-central1"
