@@ -7,5 +7,7 @@ WORKDIR /app
 # Copy the Sender Microservice Python file
 COPY main.py .
 
+COPY . /app
+
 # Run the Sender Microservice
 CMD ["python", "main.py"]
