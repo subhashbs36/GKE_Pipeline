@@ -1,21 +1,17 @@
 steps:
-  # Clone the repository
-  - name: 'gcr.io/cloud-builders/git'
-    args: ['clone', 'https://github.com/subhashbs36/GKE_Pipeline.git', 'app']
-  
   # Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0', 'app']
+    args: ['build', '-t', 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0', '.']
   
   # Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0']
 
-  # Deploy the image to GKE
+  # Deploy the image using kubectl
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'app/deployment.yaml']
+    args: ['apply', '-f', 'deployment.yaml']
     env:
-      - 'CLOUDSDK_COMPUTE_REGION=us-central1'
+      - 'PROJECT_ID=nice-theater-386506'
 
 images:
-  - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0
+  - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0'
