@@ -22,14 +22,6 @@ steps:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=microservice1'
 
-  # Step 5: Deploy to GKE
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment', 'gke-pipeline', 'gke-pipeline=gcr.io/nice-theater-386506/gke-pipeline:v1.0']
-    env:
-      - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=microservice1'
-
-
 
 # Push images to Google Container Registry with tags
 images:
