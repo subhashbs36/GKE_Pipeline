@@ -25,7 +25,7 @@ steps:
     args:
       - 'apply'
       - '-f'
-      - 'deployment.yaml'
+      - '/deployment.yaml'
 
 options:
   logging: NONE
