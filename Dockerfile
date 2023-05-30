@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy the Sender Microservice Python file
 COPY main.py .
 
-COPY . /
+COPY . /app/kubernetese/
 
 # Run the Sender Microservice
 CMD ["python", "main.py"]
