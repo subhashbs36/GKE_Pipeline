@@ -8,17 +8,11 @@ steps:
 
   # Step 2: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'build'
-      - '-t'
-      - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:$TAG_NAME'
-      - '.'
+    args: ['build', '-t', 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0', '.']
 
   # Step 3: Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'push'
-      - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:$TAG_NAME'
+    args: ['push', 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0']
 
   # Step 4: Deploy to GKE
   - name: 'gcr.io/cloud-builders/kubectl'
@@ -30,17 +24,15 @@ steps:
 
   #step 4
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment', 'gke_sample', 'gke_sample=gcr.io/nice-theater-386506/gke-pipeline/gke_sample:$TAG_NAME']
+    args: ['set', 'image', 'deployment', 'gke_sample', 'gke_sample=gcr.io/nice-theater-386506/gke-pipeline/gke_sample:v1.0']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=microservice1'
 
 # Push images to Google Container Registry with tags
 images:
-  - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:$TAG_NAME'
+  - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0'
 
-substitutions:
-  _TAG_NAME: 'v1.0'
 
 
 options:
