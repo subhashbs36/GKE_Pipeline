@@ -1,10 +1,10 @@
 steps:
   # Step 1: Pull the latest image from Container Registry
-#   - name: 'gcr.io/cloud-builders/docker'
-#     entrypoint: 'bash'
-#     args:
-#       - '-c'
-#       - 'docker pull asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:latest || exit 0'
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - 'docker pull asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:latest || exit 0'
 
   # Step 2: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
@@ -16,18 +16,24 @@ steps:
 
   #step 4
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment', 'gke_sample', 'gke_sample=gcr.io/nice-theater-386506/gke-pipeline/gke_sample:v1.0']
+    args: ['apply', '-f', 'k8s/']
+
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=microservice1'
 
   # Step 5: Deploy to GKE
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'k8s/']
-
+    args: ['set', 'image', 'deployment', 'gke-pipeline', 'gke-pipeline=gcr.io/nice-theater-386506/gke-pipeline:v1.0']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=microservice1'
+
+
+
+# Push images to Google Container Registry with tags
+images:
+  - 'asia-south2-docker.pkg.dev/nice-theater-386506/gke-pipeline/gke_sample:v1.0'
 
 
 
